@@ -1,69 +1,29 @@
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
-class Solution {
+public class Solution {
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        if (list1 == null && list2 != null) {
-            return list2;
-        } else if (list1 != null && list2 == null) {
-            return list1;
-        } else if (list1 == null && list2 == null) {
-            return null;    
+        // Create a dummy head for the new list
+        ListNode dummyHead = new ListNode(0);
+        ListNode tail = dummyHead;
+        
+        // Traverse both lists, picking the smaller value each time
+        while (list1 != null && list2 != null) {
+            if (list1.val <= list2.val) {
+                tail.next = list1;
+                list1 = list1.next;
+            } else {
+                tail.next = list2;
+                list2 = list2.next;
+            }
+            tail = tail.next;
         }
         
-    
-
-        ListNode trav1 = list1;
-        ListNode trav2 = list2;
-        ListNode merged = new ListNode();
-        ListNode head = merged;
-        if (trav1.val <= trav2.val) {
-            System.out.println("list1.val = " + trav1.val);
-            merged.val = trav1.val;
-            trav1 = trav1.next;
-        } else {
-            System.out.println("list2.val = " + trav2.val);
-            merged.val = trav2.val;
-            //merged = new ListNode(trav2.val);
-            trav2 = trav2.next;
+        // Attach the remaining elements, if any
+        if (list1 != null) {
+            tail.next = list1;
+        } else if (list2 != null) {
+            tail.next = list2;
         }
-
-        while (trav1 != null && trav2 != null) {
-            if (trav1.val <= trav2.val) {
-                System.out.println("list1.val = " + trav1.val);
-                merged.next = new ListNode(trav1.val);
-                merged = merged.next;
-                trav1 = trav1.next;
-            } else {
-                System.out.println("list2.val = " + trav2.val);
-                merged.next = new ListNode(trav2.val);
-                merged = merged.next;
-                trav2 = trav2.next;
-                
-            }
-            //System.out.println("merged: " + merged.val);
-        }
-
-        if (trav1 == null && trav2 != null) {
-            System.out.println("list2.val = " + trav2.val);
-            merged.next = trav2;
-         } else if (trav1 != null && trav2 == null) {
-             System.out.println("list1.val = " + trav1.val);
-             merged.next = trav1;
-         } else if (trav1 == null && trav2 == null) {
-             System.out.println("list1 & list2 null = ");
-             merged.next = null;  
-         }
-
-        return head;
-    }     
-
-
+        
+        return dummyHead.next; // Return the head of the merged list, skipping the dummy head
+    }
 }
+
