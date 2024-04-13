@@ -15,19 +15,18 @@
  */
 class Solution {
     public boolean isSameTree(TreeNode p, TreeNode q) {
-        return inorder(p, q);
+        if (same(p, q))
+            return true;
+        else
+            return false;
     }
 
-    public boolean inorder(TreeNode p, TreeNode q) {
-        boolean isSame = true;
-
-        if (p != null && q != null) {
-            isSame = (inorder(p.left, q.left) && (p.val == q.val) && inorder(p.right, q.right));
-        }
-        if ((p == null && q != null) || (p != null && q == null)) {
-            isSame = false;
-        }
-        return isSame;
-
+    public boolean same(TreeNode p, TreeNode q) {
+        if (p == null && q == null)
+            return true;
+        if (p != null && q != null)
+            return p.val == q.val && same(p.left, q.left) && same(p.right, q.right);
+        else
+            return false;
     }
 }
